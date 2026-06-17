@@ -1,0 +1,18 @@
+# Data files (excluded from repo)
+merged_final_new.xlsx
+Transposition_data.xlsx
+
+# Virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db

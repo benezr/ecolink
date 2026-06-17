@@ -1,0 +1,223 @@
+MODEL 1 — Basic DiD
+======================================================================
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         target_engaged   R-squared:                       0.084
+Model:                            OLS   Adj. R-squared:                  0.083
+Method:                 Least Squares   F-statistic:                     16.31
+Date:                Wed, 17 Jun 2026   Prob (F-statistic):           3.72e-07
+Time:                        13:41:31   Log-Likelihood:                -14591.
+No. Observations:               21396   AIC:                         2.924e+04
+Df Residuals:                   21367   BIC:                         2.947e+04
+Df Model:                          28                                         
+Covariance Type:              cluster                                         
+=======================================================================================================
+                                          coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------------
+Intercept                               0.5386      0.045     12.100      0.000       0.451       0.626
+C(nace_b)[T.Manufacturing (C)]          0.0366      0.012      3.010      0.003       0.013       0.060
+C(nace_b)[T.Retail (G)]                -0.0369      0.012     -3.207      0.001      -0.059      -0.014
+C(nace_b)[T.Services (H/I/J/K/L/M)]     0.0055      0.010      0.573      0.566      -0.013       0.024
+C(firm_age_ord)[T.2.0]                  0.0135      0.039      0.346      0.730      -0.063       0.090
+C(firm_age_ord)[T.3.0]                  0.0030      0.037      0.081      0.935      -0.070       0.076
+C(firm_age_ord)[T.4.0]                  0.0138      0.038      0.367      0.714      -0.060       0.088
+C(ipscntry)[T.Bulgaria]                -0.1708      0.004    -39.946      0.000      -0.179      -0.162
+C(ipscntry)[T.Croatia]                 -0.0682      0.004    -15.212      0.000      -0.077      -0.059
+C(ipscntry)[T.Czechia]                 -0.1924      0.003    -62.155      0.000      -0.198      -0.186
+C(ipscntry)[T.Denmark]                 -0.0352      0.001    -36.333      0.000      -0.037      -0.033
+C(ipscntry)[T.Estonia]                 -0.1925      0.005    -41.663      0.000      -0.202      -0.183
+C(ipscntry)[T.Finland]                 -0.0624      0.001    -42.544      0.000      -0.065      -0.060
+C(ipscntry)[T.France]                  -0.0167      0.001    -12.863      0.000      -0.019      -0.014
+C(ipscntry)[T.Greece]                  -0.0108      0.003     -3.436      0.001      -0.017      -0.005
+C(ipscntry)[T.Hungary]                 -0.1891      0.003    -63.375      0.000      -0.195      -0.183
+C(ipscntry)[T.Ireland]                  0.1023      0.005     20.913      0.000       0.093       0.112
+C(ipscntry)[T.Italy]                   -0.0254      0.002    -10.266      0.000      -0.030      -0.021
+C(ipscntry)[T.Latvia]                  -0.2230      0.006    -37.541      0.000      -0.235      -0.211
+C(ipscntry)[T.Lithuania]               -0.0387      0.005     -7.202      0.000      -0.049      -0.028
+C(ipscntry)[T.Poland]                  -0.2978      0.003    -93.602      0.000      -0.304      -0.292
+C(ipscntry)[T.Republic of Cyprus]      -0.1513      0.006    -27.271      0.000      -0.162      -0.140
+C(ipscntry)[T.Romania]                  0.0234      0.006      3.950      0.000       0.012       0.035
+C(ipscntry)[T.Slovakia]                -0.1979      0.005    -37.703      0.000      -0.208      -0.188
+C(ipscntry)[T.Slovenia]                -0.1031      0.002    -48.779      0.000      -0.107      -0.099
+C(ipscntry)[T.Sweden]                   0.0702      0.002     33.736      0.000       0.066       0.074
+treat                                   0.1952      0.018     10.588      0.000       0.159       0.231
+post                                   -0.0112      0.015     -0.740      0.459      -0.041       0.018
+treat:post                              0.0649      0.026      2.451      0.014       0.013       0.117
+==============================================================================
+Omnibus:                    94843.063   Durbin-Watson:                   1.974
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2515.328
+Skew:                           0.046   Prob(JB):                         0.00
+Kurtosis:                       1.323   Cond. No.                         33.9
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+
+MODEL 2 — Full controls
+======================================================================
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         target_engaged   R-squared:                       0.170
+Model:                            OLS   Adj. R-squared:                  0.170
+Method:                 Least Squares   F-statistic:                -1.439e+11
+Date:                Wed, 17 Jun 2026   Prob (F-statistic):               1.00
+Time:                        13:41:31   Log-Likelihood:                -13529.
+No. Observations:               21396   AIC:                         2.711e+04
+Df Residuals:                   21372   BIC:                         2.730e+04
+Df Model:                          23                                         
+Covariance Type:              cluster                                         
+==============================================================================================
+                                 coef    std err          z      P>|z|      [0.025      0.975]
+----------------------------------------------------------------------------------------------
+Intercept                      0.0514      0.037      1.399      0.162      -0.021       0.123
+treat                          0.1100      0.014      8.106      0.000       0.083       0.137
+post                          -0.0055      0.012     -0.473      0.637      -0.028       0.017
+treat:post                     0.0433      0.023      1.866      0.062      -0.002       0.089
+east_west                      0.1168      0.028      4.106      0.000       0.061       0.173
+firm_growth_ord_d              0.0235      0.006      3.675      0.000       0.011       0.036
+green_staff_any                0.1209      0.010     11.631      0.000       0.101       0.141
+investment_dummy               0.1061      0.012      8.885      0.000       0.083       0.129
+energy_saving_maturity_d       0.0410      0.010      4.235      0.000       0.022       0.060
+materials_maturity_d          -0.0192      0.010     -1.862      0.063      -0.039       0.001
+green_suppliers_maturity_d     0.0884      0.011      8.171      0.000       0.067       0.110
+waste_reduction_maturity_d     0.0155      0.011      1.462      0.144      -0.005       0.036
+sell_residues_maturity_d       0.0210      0.007      2.829      0.005       0.006       0.036
+recycling_maturity_d           0.0165      0.010      1.618      0.106      -0.003       0.036
+eco_design_maturity_d          0.0285      0.009      3.042      0.002       0.010       0.047
+barrier_institutional_d        0.0275      0.012      2.285      0.022       0.004       0.051
+barrier_capability_d          -0.0137      0.007     -1.897      0.058      -0.028       0.000
+barrier_market_d              -0.0005      0.009     -0.059      0.953      -0.019       0.017
+support_external               0.0920      0.011      8.435      0.000       0.071       0.113
+support_internal               0.0573      0.011      5.090      0.000       0.035       0.079
+green_offer_ord_d              0.1678      0.019      8.776      0.000       0.130       0.205
+green_turnover_pct_d          -0.0749      0.014     -5.407      0.000      -0.102      -0.048
+firm_age_ord_d                -0.0210      0.020     -1.075      0.282      -0.059       0.017
+support_internal_pr            0.0187      0.014      1.372      0.170      -0.008       0.045
+==============================================================================
+Omnibus:                   471346.517   Durbin-Watson:                   1.945
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1626.053
+Skew:                           0.046   Prob(JB):                         0.00
+Kurtosis:                       1.653   Cond. No.                         18.7
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+
+MODEL 1 (with barriers)
+======================================================================
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         target_engaged   R-squared:                       0.099
+Model:                            OLS   Adj. R-squared:                  0.098
+Method:                 Least Squares   F-statistic:                     172.9
+Date:                Wed, 17 Jun 2026   Prob (F-statistic):           1.27e-16
+Time:                        13:41:31   Log-Likelihood:                -14408.
+No. Observations:               21396   AIC:                         2.888e+04
+Df Residuals:                   21365   BIC:                         2.913e+04
+Df Model:                          30                                         
+Covariance Type:              cluster                                         
+=======================================================================================================
+                                          coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------------
+Intercept                               0.4703      0.048      9.775      0.000       0.376       0.565
+C(nace_b)[T.Manufacturing (C)]          0.0355      0.012      2.886      0.004       0.011       0.060
+C(nace_b)[T.Retail (G)]                -0.0276      0.012     -2.270      0.023      -0.051      -0.004
+C(nace_b)[T.Services (H/I/J/K/L/M)]     0.0195      0.010      1.959      0.050   -6.99e-06       0.039
+C(firm_age_ord)[T.2.0]                  0.0174      0.042      0.416      0.677      -0.065       0.099
+C(firm_age_ord)[T.3.0]                  0.0051      0.041      0.126      0.900      -0.075       0.085
+C(firm_age_ord)[T.4.0]                  0.0099      0.041      0.240      0.810      -0.071       0.091
+C(ipscntry)[T.Bulgaria]                -0.1553      0.004    -37.493      0.000      -0.163      -0.147
+C(ipscntry)[T.Croatia]                 -0.0531      0.005    -11.687      0.000      -0.062      -0.044
+C(ipscntry)[T.Czechia]                 -0.1933      0.003    -69.189      0.000      -0.199      -0.188
+C(ipscntry)[T.Denmark]                 -0.0113      0.002     -5.135      0.000      -0.016      -0.007
+C(ipscntry)[T.Estonia]                 -0.1558      0.006    -26.609      0.000      -0.167      -0.144
+C(ipscntry)[T.Finland]                 -0.0494      0.002    -25.725      0.000      -0.053      -0.046
+C(ipscntry)[T.France]                  -0.0065      0.002     -3.527      0.000      -0.010      -0.003
+C(ipscntry)[T.Greece]                  -0.0091      0.003     -2.975      0.003      -0.015      -0.003
+C(ipscntry)[T.Hungary]                 -0.1720      0.003    -52.440      0.000      -0.178      -0.166
+C(ipscntry)[T.Ireland]                  0.1468      0.006     22.709      0.000       0.134       0.159
+C(ipscntry)[T.Italy]                   -0.0075      0.003     -2.660      0.008      -0.013      -0.002
+C(ipscntry)[T.Latvia]                  -0.2016      0.006    -32.359      0.000      -0.214      -0.189
+C(ipscntry)[T.Lithuania]               -0.0294      0.005     -5.571      0.000      -0.040      -0.019
+C(ipscntry)[T.Poland]                  -0.3006      0.003   -104.307      0.000      -0.306      -0.295
+C(ipscntry)[T.Republic of Cyprus]      -0.1331      0.006    -22.827      0.000      -0.145      -0.122
+C(ipscntry)[T.Romania]                  0.0194      0.006      3.480      0.001       0.008       0.030
+C(ipscntry)[T.Slovakia]                -0.1971      0.005    -42.050      0.000      -0.206      -0.188
+C(ipscntry)[T.Slovenia]                -0.0810      0.003    -27.950      0.000      -0.087      -0.075
+C(ipscntry)[T.Sweden]                   0.0756      0.002     45.318      0.000       0.072       0.079
+treat                                   0.1857      0.018     10.507      0.000       0.151       0.220
+post                                   -0.0223      0.013     -1.668      0.095      -0.048       0.004
+treat:post                              0.0560      0.026      2.130      0.033       0.004       0.108
+barrier_institutional                   0.0701      0.007     10.200      0.000       0.057       0.084
+barrier_capability                      0.0124      0.006      2.059      0.040       0.001       0.024
+==============================================================================
+Omnibus:                   102097.890   Durbin-Watson:                   1.978
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             2350.863
+Skew:                           0.047   Prob(JB):                         0.00
+Kurtosis:                       1.379   Cond. No.                         40.8
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+
+MODEL 3 — Simplified
+======================================================================
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:         target_engaged   R-squared:                       0.187
+Model:                            OLS   Adj. R-squared:                  0.185
+Method:                 Least Squares   F-statistic:                     222.5
+Date:                Wed, 17 Jun 2026   Prob (F-statistic):           4.28e-18
+Time:                        13:41:31   Log-Likelihood:                -13318.
+No. Observations:               21396   AIC:                         2.671e+04
+Df Residuals:                   21361   BIC:                         2.699e+04
+Df Model:                          34                                         
+Covariance Type:              cluster                                         
+=======================================================================================================
+                                          coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------------
+Intercept                               0.1420      0.023      6.234      0.000       0.097       0.187
+C(nace_b)[T.Manufacturing (C)]          0.0173      0.009      1.837      0.066      -0.001       0.036
+C(nace_b)[T.Retail (G)]                -0.0338      0.010     -3.523      0.000      -0.053      -0.015
+C(nace_b)[T.Services (H/I/J/K/L/M)]     0.0266      0.009      3.081      0.002       0.010       0.044
+C(ipscntry)[T.Bulgaria]                -0.1099      0.005    -20.648      0.000      -0.120      -0.099
+C(ipscntry)[T.Croatia]                 -0.0315      0.005     -6.323      0.000      -0.041      -0.022
+C(ipscntry)[T.Czechia]                 -0.1497      0.005    -29.854      0.000      -0.160      -0.140
+C(ipscntry)[T.Denmark]                 -0.0075      0.002     -3.693      0.000      -0.012      -0.004
+C(ipscntry)[T.Estonia]                 -0.0835      0.007    -12.037      0.000      -0.097      -0.070
+C(ipscntry)[T.Finland]                 -0.0383      0.003    -13.818      0.000      -0.044      -0.033
+C(ipscntry)[T.France]                   0.0294      0.003     10.669      0.000       0.024       0.035
+C(ipscntry)[T.Greece]                  -0.0203      0.002     -8.403      0.000      -0.025      -0.016
+C(ipscntry)[T.Hungary]                 -0.1114      0.006    -17.802      0.000      -0.124      -0.099
+C(ipscntry)[T.Ireland]                  0.1276      0.004     30.227      0.000       0.119       0.136
+C(ipscntry)[T.Italy]                    0.0014      0.004      0.376      0.707      -0.006       0.009
+C(ipscntry)[T.Latvia]                  -0.1555      0.006    -25.559      0.000      -0.167      -0.144
+C(ipscntry)[T.Lithuania]               -0.0029      0.004     -0.672      0.501      -0.011       0.006
+C(ipscntry)[T.Poland]                  -0.2299      0.005    -44.527      0.000      -0.240      -0.220
+C(ipscntry)[T.Republic of Cyprus]      -0.0604      0.007     -8.672      0.000      -0.074      -0.047
+C(ipscntry)[T.Romania]                  0.0050      0.003      1.542      0.123      -0.001       0.011
+C(ipscntry)[T.Slovakia]                -0.2120      0.004    -56.918      0.000      -0.219      -0.205
+C(ipscntry)[T.Slovenia]                -0.0760      0.003    -30.353      0.000      -0.081      -0.071
+C(ipscntry)[T.Sweden]                   0.0458      0.003     13.868      0.000       0.039       0.052
+treat                                   0.1100      0.012      8.929      0.000       0.086       0.134
+post                                   -0.0040      0.011     -0.353      0.724      -0.026       0.018
+treat:post                              0.0537      0.022      2.429      0.015       0.010       0.097
+firm_growth_ord_d                       0.0188      0.006      3.050      0.002       0.007       0.031
+green_staff_any                         0.1259      0.010     12.147      0.000       0.106       0.146
+investment_dummy                        0.0998      0.011      9.247      0.000       0.079       0.121
+energy_saving_maturity_d                0.0561      0.008      7.218      0.000       0.041       0.071
+green_suppliers_maturity_d              0.0915      0.010      9.414      0.000       0.072       0.111
+support_external                        0.1016      0.009     10.892      0.000       0.083       0.120
+support_internal                        0.0767      0.012      6.348      0.000       0.053       0.100
+green_offer_ord_d                       0.1654      0.018      9.038      0.000       0.130       0.201
+green_turnover_pct_d                   -0.0478      0.011     -4.162      0.000      -0.070      -0.025
+==============================================================================
+Omnibus:                    54858.861   Durbin-Watson:                   1.985
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1472.587
+Skew:                           0.035   Prob(JB):                         0.00
+Kurtosis:                       1.717   Cond. No.                         42.5
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+
