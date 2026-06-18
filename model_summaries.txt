@@ -5,8 +5,8 @@ MODEL 1 — Basic DiD
 Dep. Variable:         target_engaged   R-squared:                       0.084
 Model:                            OLS   Adj. R-squared:                  0.083
 Method:                 Least Squares   F-statistic:                     16.31
-Date:                Wed, 17 Jun 2026   Prob (F-statistic):           3.72e-07
-Time:                        13:41:31   Log-Likelihood:                -14591.
+Date:                Thu, 18 Jun 2026   Prob (F-statistic):           3.72e-07
+Time:                        08:48:08   Log-Likelihood:                -14591.
 No. Observations:               21396   AIC:                         2.924e+04
 Df Residuals:                   21367   BIC:                         2.947e+04
 Df Model:                          28                                         
@@ -60,8 +60,8 @@ MODEL 2 — Full controls
 Dep. Variable:         target_engaged   R-squared:                       0.170
 Model:                            OLS   Adj. R-squared:                  0.170
 Method:                 Least Squares   F-statistic:                -1.439e+11
-Date:                Wed, 17 Jun 2026   Prob (F-statistic):               1.00
-Time:                        13:41:31   Log-Likelihood:                -13529.
+Date:                Thu, 18 Jun 2026   Prob (F-statistic):               1.00
+Time:                        08:48:08   Log-Likelihood:                -13529.
 No. Observations:               21396   AIC:                         2.711e+04
 Df Residuals:                   21372   BIC:                         2.730e+04
 Df Model:                          23                                         
@@ -110,8 +110,8 @@ MODEL 1 (with barriers)
 Dep. Variable:         target_engaged   R-squared:                       0.099
 Model:                            OLS   Adj. R-squared:                  0.098
 Method:                 Least Squares   F-statistic:                     172.9
-Date:                Wed, 17 Jun 2026   Prob (F-statistic):           1.27e-16
-Time:                        13:41:31   Log-Likelihood:                -14408.
+Date:                Thu, 18 Jun 2026   Prob (F-statistic):           1.27e-16
+Time:                        08:48:08   Log-Likelihood:                -14408.
 No. Observations:               21396   AIC:                         2.888e+04
 Df Residuals:                   21365   BIC:                         2.913e+04
 Df Model:                          30                                         
@@ -167,8 +167,8 @@ MODEL 3 — Simplified
 Dep. Variable:         target_engaged   R-squared:                       0.187
 Model:                            OLS   Adj. R-squared:                  0.185
 Method:                 Least Squares   F-statistic:                     222.5
-Date:                Wed, 17 Jun 2026   Prob (F-statistic):           4.28e-18
-Time:                        13:41:31   Log-Likelihood:                -13318.
+Date:                Thu, 18 Jun 2026   Prob (F-statistic):           4.28e-18
+Time:                        08:48:08   Log-Likelihood:                -13318.
 No. Observations:               21396   AIC:                         2.671e+04
 Df Residuals:                   21361   BIC:                         2.699e+04
 Df Model:                          34                                         
@@ -216,6 +216,61 @@ Omnibus:                    54858.861   Durbin-Watson:                   1.985
 Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1472.587
 Skew:                           0.035   Prob(JB):                         0.00
 Kurtosis:                       1.717   Cond. No.                         42.5
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (cluster)
+
+MODEL 1 GROWTH — firm_growth_ord as outcome
+======================================================================
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:        firm_growth_ord   R-squared:                       0.044
+Model:                            OLS   Adj. R-squared:                  0.043
+Method:                 Least Squares   F-statistic:                     10.03
+Date:                Thu, 18 Jun 2026   Prob (F-statistic):           1.57e-05
+Time:                        08:48:08   Log-Likelihood:                -25434.
+No. Observations:               21396   AIC:                         5.093e+04
+Df Residuals:                   21367   BIC:                         5.116e+04
+Df Model:                          28                                         
+Covariance Type:              cluster                                         
+=======================================================================================================
+                                          coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------------------------------
+Intercept                               0.4914      0.056      8.822      0.000       0.382       0.601
+C(nace_b)[T.Manufacturing (C)]         -0.0377      0.019     -1.941      0.052      -0.076       0.000
+C(nace_b)[T.Retail (G)]                -0.0319      0.017     -1.890      0.059      -0.065       0.001
+C(nace_b)[T.Services (H/I/J/K/L/M)]    -0.0174      0.016     -1.081      0.280      -0.049       0.014
+C(firm_age_ord)[T.2.0]                 -0.1433      0.052     -2.782      0.005      -0.244      -0.042
+C(firm_age_ord)[T.3.0]                 -0.2308      0.056     -4.116      0.000      -0.341      -0.121
+C(firm_age_ord)[T.4.0]                 -0.3378      0.063     -5.384      0.000      -0.461      -0.215
+C(ipscntry)[T.Bulgaria]                -0.1053      0.003    -33.020      0.000      -0.112      -0.099
+C(ipscntry)[T.Croatia]                 -0.0128      0.006     -2.171      0.030      -0.024      -0.001
+C(ipscntry)[T.Czechia]                 -0.1489      0.003    -51.106      0.000      -0.155      -0.143
+C(ipscntry)[T.Denmark]                  0.2130      0.001    158.965      0.000       0.210       0.216
+C(ipscntry)[T.Estonia]                 -0.1697      0.003    -51.177      0.000      -0.176      -0.163
+C(ipscntry)[T.Finland]                 -0.0437      0.002    -19.817      0.000      -0.048      -0.039
+C(ipscntry)[T.France]                  -0.0311      0.003    -10.287      0.000      -0.037      -0.025
+C(ipscntry)[T.Greece]                   0.0537      0.003     18.758      0.000       0.048       0.059
+C(ipscntry)[T.Hungary]                 -0.0401      0.004     -9.195      0.000      -0.049      -0.032
+C(ipscntry)[T.Ireland]                 -0.0248      0.004     -7.034      0.000      -0.032      -0.018
+C(ipscntry)[T.Italy]                   -0.2548      0.002   -102.607      0.000      -0.260      -0.250
+C(ipscntry)[T.Latvia]                  -0.0807      0.004    -18.610      0.000      -0.089      -0.072
+C(ipscntry)[T.Lithuania]                0.0611      0.005     12.441      0.000       0.051       0.071
+C(ipscntry)[T.Poland]                  -0.1492      0.004    -34.881      0.000      -0.158      -0.141
+C(ipscntry)[T.Republic of Cyprus]      -0.1147      0.005    -23.216      0.000      -0.124      -0.105
+C(ipscntry)[T.Romania]                  0.0159      0.005      3.383      0.001       0.007       0.025
+C(ipscntry)[T.Slovakia]                -0.1332      0.005    -28.728      0.000      -0.142      -0.124
+C(ipscntry)[T.Slovenia]                 0.0370      0.004     10.244      0.000       0.030       0.044
+C(ipscntry)[T.Sweden]                  -0.0503      0.002    -30.214      0.000      -0.054      -0.047
+treat                                   0.3452      0.038      9.115      0.000       0.271       0.419
+post                                    0.1660      0.041      4.087      0.000       0.086       0.246
+treat:post                             -0.1639      0.049     -3.375      0.001      -0.259      -0.069
+==============================================================================
+Omnibus:                    25609.074   Durbin-Watson:                   1.962
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1969.143
+Skew:                          -0.418   Prob(JB):                         0.00
+Kurtosis:                       1.772   Cond. No.                         33.9
 ==============================================================================
 
 Notes:

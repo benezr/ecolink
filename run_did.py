@@ -396,6 +396,17 @@ model3 = smf.ols(
 ).fit(cov_type="cluster", cov_kwds={"groups": df_clean["ipscntry"]})
 print(model3.summary())
 
+# ── Model 1 Growth: DiD with firm growth as outcome ───────────────────────
+print("\n" + "="*70)
+print("MODEL 1 GROWTH — DiD with firm_growth_ord as outcome")
+print("="*70)
+df_growth = df_clean.dropna(subset=["firm_growth_ord"])
+model1_growth = smf.ols(
+    "firm_growth_ord ~ treat*post + C(nace_b) + C(firm_age_ord) + C(ipscntry)",
+    data=df_growth
+).fit(cov_type="cluster", cov_kwds={"groups": df_growth["ipscntry"]})
+print(model1_growth.summary())
+
 # ── Save all summaries to text file ───────────────────────────────────────
 out = BASE / "model_summaries.txt"
 with open(out, "w") as f:
@@ -407,4 +418,154 @@ with open(out, "w") as f:
     f.write(str(model1.summary()) + "\n\n")
     f.write("MODEL 3 — Simplified\n" + "="*70 + "\n")
     f.write(str(model3.summary()) + "\n\n")
+    f.write("MODEL 1 GROWTH — firm_growth_ord as outcome\n" + "="*70 + "\n")
+    f.write(str(model1_growth.summary()) + "\n\n")
 print(f"\nAll summaries saved to: {out}")
+
+# ═══════════════════════════════════════════════════════════════════════════
+# COMPARATIVE SPECIFICATIONS
+# ───────────────────────────────────────────────────────────────────────────
+# 1. Simple OLS — treatment effect of firm size on outcome, no DiD.
+#    Estimated for target_engaged and firm_growth_ord_d, with and without
+#    country fixed effects.
+#
+# 2. DiD — adds treat × post interaction (implementing-country sample only).
+#    With and without country FEs.
+#
+# 3. DDD — extends DiD with impl as a third dimension, using never-treated
+#    countries (implementation_country=0) as an additional control group.
+#    treat × post × impl is the DDD coefficient.
+#    Country FEs cannot be included (impl is collinear); sector + age FEs
+#    are used instead for the "with FE" variant.
+#
+# 4. DDD with high-dimensional FEs (Callaway–Sant'Anna style):
+#      μc × Eligible_i  → C(cntry_treat): country × eligibility FE
+#      λc × t           → C(cntry_post):  country × time FE
+#      δ Eligible_i × t → treat:post:     eligibility × time FE
+#    The triple interaction treat:post:impl is the DDD coefficient after
+#    absorbing all two-way interactions.
+#
+# 5. Comparison table — all key treatment coefficients side-by-side.
+# ═══════════════════════════════════════════════════════════════════════════
+
+from statsmodels.iolib.summary2 import summary_col
+
+# ── Build DDD sample (impl=0 and impl=1 countries) ─────────────────────────
+df_ddd = df.dropna(subset=[
+    "target_engaged", "treat", "post",
+    "scr12", "nace_b", "ipscntry", "implementation_country"
+]).copy()
+df_ddd["impl"] = df_ddd["implementation_country"]
+
+# Analysis samples
+df_s = df_clean.dropna(subset=["firm_growth_ord_d"]).copy()   # OLS / DiD (impl=1)
+df_d = df_ddd.dropna(subset=["firm_growth_ord_d"]).copy()      # DDD (all countries)
+
+# Extended FE dummies (spec 4): country × eligibility, country × time
+df_d["cntry_treat"] = df_d["ipscntry"].astype(str) + "_" + df_d["treat"].astype(str)
+df_d["cntry_post"]  = df_d["ipscntry"].astype(str) + "_" + df_d["post"].astype(str)
+
+def cl(df_):
+    return {"cov_type": "cluster", "cov_kwds": {"groups": df_["ipscntry"]}}
+
+# ── 1. Simple OLS ──────────────────────────────────────────────────────────
+print("\n" + "="*70)
+print("1. SIMPLE OLS  (no DiD treatment)")
+print("="*70)
+
+s1a = smf.ols("target_engaged    ~ treat + C(nace_b) + C(firm_age_ord)",                data=df_s).fit(**cl(df_s))
+s1b = smf.ols("target_engaged    ~ treat + C(nace_b) + C(firm_age_ord) + C(ipscntry)", data=df_s).fit(**cl(df_s))
+s1c = smf.ols("firm_growth_ord_d ~ treat + C(nace_b) + C(firm_age_ord)",                data=df_s).fit(**cl(df_s))
+s1d = smf.ols("firm_growth_ord_d ~ treat + C(nace_b) + C(firm_age_ord) + C(ipscntry)", data=df_s).fit(**cl(df_s))
+
+for lbl, m in [("1a target_engaged  no FE", s1a), ("1b target_engaged  country FE", s1b),
+               ("1c firm_growth_ord_d no FE", s1c), ("1d firm_growth_ord_d country FE", s1d)]:
+    print(f"  {lbl}: treat = {m.params['treat']:.4f}  p = {m.pvalues['treat']:.3f}")
+
+# ── 2. DiD ─────────────────────────────────────────────────────────────────
+print("\n" + "="*70)
+print("2. DIFFERENCE-IN-DIFFERENCES  (treat × post)")
+print("="*70)
+
+s2a = smf.ols("target_engaged    ~ treat*post + C(nace_b) + C(firm_age_ord)",                data=df_s).fit(**cl(df_s))
+s2b = smf.ols("target_engaged    ~ treat*post + C(nace_b) + C(firm_age_ord) + C(ipscntry)", data=df_s).fit(**cl(df_s))
+s2c = smf.ols("firm_growth_ord_d ~ treat*post + C(nace_b) + C(firm_age_ord)",                data=df_s).fit(**cl(df_s))
+s2d = smf.ols("firm_growth_ord_d ~ treat*post + C(nace_b) + C(firm_age_ord) + C(ipscntry)", data=df_s).fit(**cl(df_s))
+
+for lbl, m in [("2a target_engaged  no FE", s2a), ("2b target_engaged  country FE", s2b),
+               ("2c firm_growth_ord_d no FE", s2c), ("2d firm_growth_ord_d country FE", s2d)]:
+    print(f"  {lbl}: treat:post = {m.params['treat:post']:.4f}  p = {m.pvalues['treat:post']:.3f}")
+
+# ── 3. DDD ─────────────────────────────────────────────────────────────────
+print("\n" + "="*70)
+print("3. DIFFERENCE-IN-DIFFERENCE-IN-DIFFERENCES  (treat × post × impl)")
+print("   impl=0 countries are the never-treated control group.")
+print("   Country FEs excluded — impl absorbs the country-group dimension.")
+print("="*70)
+
+s3a = smf.ols("target_engaged    ~ treat*post*impl + C(nace_b)",                  data=df_d).fit(**cl(df_d))
+s3b = smf.ols("target_engaged    ~ treat*post*impl + C(nace_b) + C(firm_age_ord)", data=df_d).fit(**cl(df_d))
+s3c = smf.ols("firm_growth_ord_d ~ treat*post*impl + C(nace_b)",                  data=df_d).fit(**cl(df_d))
+s3d = smf.ols("firm_growth_ord_d ~ treat*post*impl + C(nace_b) + C(firm_age_ord)", data=df_d).fit(**cl(df_d))
+
+for lbl, m in [("3a target_engaged  no FE", s3a), ("3b target_engaged  sector+age FE", s3b),
+               ("3c firm_growth_ord_d no FE", s3c), ("3d firm_growth_ord_d sector+age FE", s3d)]:
+    print(f"  {lbl}: treat:post:impl = {m.params['treat:post:impl']:.4f}  p = {m.pvalues['treat:post:impl']:.3f}")
+
+# ── 4. DDD — High-dimensional FEs ──────────────────────────────────────────
+print("\n" + "="*70)
+print("4. DDD — HIGH-DIMENSIONAL FEs")
+print("   mu_c x Eligible_i : C(cntry_treat) -- country x eligibility FE")
+print("   lambda_c x t      : C(cntry_post)  -- country x time FE")
+print("   delta Eligible x t: treat:post     -- eligibility x time FE")
+print("   All lower-order terms of treat:post:impl are absorbed by the FEs.")
+print("="*70)
+
+s4a = smf.ols(
+    """target_engaged ~ treat:post:impl
+       + C(cntry_treat) + C(cntry_post) + treat:post
+       + C(nace_b) + C(firm_age_ord)""",
+    data=df_d
+).fit(**cl(df_d))
+
+s4b = smf.ols(
+    """firm_growth_ord_d ~ treat:post:impl
+       + C(cntry_treat) + C(cntry_post) + treat:post
+       + C(nace_b) + C(firm_age_ord)""",
+    data=df_d
+).fit(**cl(df_d))
+
+for lbl, m in [("4a target_engaged", s4a), ("4b firm_growth_ord_d", s4b)]:
+    print(f"  {lbl}: treat:post:impl = {m.params['treat:post:impl']:.4f}  p = {m.pvalues['treat:post:impl']:.3f}")
+
+# ── 5. Comparison table ─────────────────────────────────────────────────────
+print("\n" + "="*70)
+print("5. COMPARISON TABLE")
+print("   Rows show key treatment coefficients; *** p<0.01, ** p<0.05, * p<0.1")
+print("   (1a-d) Simple OLS | (2a-d) DiD | (3a-d) DDD | (4a-b) DDD ext FE")
+print("="*70)
+
+comp_table = summary_col(
+    [s1a, s1b, s1c, s1d, s2a, s2b, s2c, s2d, s3a, s3b, s3c, s3d, s4a, s4b],
+    model_names=[
+        "(1a)", "(1b)", "(1c)", "(1d)",
+        "(2a)", "(2b)", "(2c)", "(2d)",
+        "(3a)", "(3b)", "(3c)", "(3d)",
+        "(4a)", "(4b)",
+    ],
+    stars=True,
+    float_format="%0.4f",
+    regressor_order=["treat", "treat:post", "treat:post:impl"],
+    drop_omitted=True,
+    info_dict={
+        "N":          lambda x: f"{int(x.nobs)}",
+        "R-squared":  lambda x: f"{x.rsquared:.3f}",
+        "Outcome":    lambda x: x.model.endog_names,
+        "Country FE": lambda x: "Yes" if any("ipscntry" in v for v in x.model.exog_names) else "No",
+    },
+)
+print(comp_table)
+
+with open(BASE / "comparison_table.txt", "w") as f:
+    f.write(str(comp_table))
+print(f"Saved: {BASE / 'comparison_table.txt'}")
