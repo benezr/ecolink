@@ -1,0 +1,23 @@
+====================================================================================================
+DDD ROBUSTNESS: treatment-timing recoding + wild cluster bootstrap
+Outcome eq.: <Y> ~ treat*post*impl + C(nace_b) + C(firm_age_ord), clustered by country
+DDD coefficient = treat:post:impl.  B=999 Rademacher draws, null imposed (WCR).
+
+D0 is the ORIGINAL binary 3WFE DDD, kept as baseline. It relies on UNCONDITIONAL
+parallel trends and ignores transposition timing (paper sec. 3.1-3.2): treat with caution.
+D1 fixes the unambiguous Cyprus misclassification (transposed 2025-07-29, after the 2024 wave).
+D2/D3 progressively require earlier exposure; late-2024 transposers become not-yet-enabled controls.
+====================================================================================================
+Definition                                    Outcome            enbl/tot cl       N   DDD coef  p(analytic)     p(WCB)
+-----------------------------------------------------------------------------------------------------------------------
+D0 baseline binary (orig, incl. Cyprus)       target_engaged           20/27   28236     0.1754     0.001***   0.006***
+D0 baseline binary (orig, incl. Cyprus)       firm_growth_ord_d        20/27   28236    -0.0524     0.430      0.494   
+D1 exposed by 2024-12-31 (Cyprus -> control)  target_engaged           19/27   28236     0.1617     0.002***   0.013** 
+D1 exposed by 2024-12-31 (Cyprus -> control)  firm_growth_ord_d        19/27   28236    -0.0497     0.449      0.509   
+D2 exposed by 2024-06-30 (strict)             target_engaged            9/27   28236     0.0797     0.171      0.236   
+D2 exposed by 2024-06-30 (strict)             firm_growth_ord_d         9/27   28236    -0.0519     0.405      0.507   
+D3 exposed by 2024-03-31 (very strict)        target_engaged            5/27   28236     0.1288     0.005***   0.032** 
+D3 exposed by 2024-03-31 (very strict)        firm_growth_ord_d         5/27   28236     0.0683     0.268      0.433   
+-----------------------------------------------------------------------------------------------------------------------
+Stars on each p-value: *** p<0.01, ** p<0.05, * p<0.10.
+'enbl/tot cl' = enabling (impl=1) country clusters / total country clusters.
