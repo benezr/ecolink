@@ -84,6 +84,23 @@ df["turnover_250k"] = df["scr14"].map({
     "More than 50 million euro": 1,
 })
 
+# Bandwidth sample flags: firms just around the CSRD threshold
+df["employee_50to499"] = df["scr10"].map({
+    "1-9": 0, "10-49": 0, "50-249": 1, "250-499": 1, "500+": 0,
+})
+df["turnover_2m_50m"] = df["scr14"].map({
+    "Less than 25,000 euro": 0,
+    "More than 25,000 to 50,000 euro": 0,
+    "More than 50,000 to 100,000 euro": 0,
+    "More than 100,000 to 250,000 euro": 0,
+    "More than 250,000 to 500,000 euro": 0,
+    "More than 500,000 to 2 million euro": 0,
+    "More than 2 to 10 million euro": 1,
+    "Don't know/No Answer": 0,
+    "More than 10 to 50 million euro": 1,
+    "More than 50 million euro": 0,
+})
+
 df["post"] = (df["year"] == 2024).astype(int)
 df["sample_main"] = (df["implementation_country"] == 1).astype(int)
 
@@ -249,6 +266,8 @@ KEEP_COLS = [
     "employee_treatment", "turnover_treatment", "treat", "post", "sample_main",
     # Placebo treatment components
     "employee_50plus", "turnover_250k",
+    # Bandwidth sample flags
+    "employee_50to499", "turnover_2m_50m",
     # Outcomes
     "target_engaged", "target_engaged_ord", "firm_growth_ord", "firm_growth_ord_d",
     # Firm-level controls
