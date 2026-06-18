@@ -1,6 +1,7 @@
 # Data files (excluded from repo)
 merged_final_new.xlsx
 Transposition_data.xlsx
+analysis_data.parquet
 
 # Virtual environment
 venv/
